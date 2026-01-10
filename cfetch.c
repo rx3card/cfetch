@@ -2,6 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <stdbool.h>
+
+// Estructura para opciones de línea de comandos
+typedef struct Options {
+    bool show_help;
+    bool show_version;
+    bool no_color;
+    bool simple_mode;
+    bool use_default_logo;
+} Options;
 
 #ifdef _WIN32
     #include <windows.h>
@@ -13,8 +23,6 @@
     #include <sys/sysinfo.h>
     #include <sys/statvfs.h>
     #include <pwd.h>
-    #define PATH_SEPARATOR '/'
-    #define LINE_CLEAR "clear"
 #endif
 
 #define MAX_INFO 512
@@ -72,6 +80,7 @@ typedef enum {
     OS_LINUX_GENERIC
 } OSType;
 
+
 typedef struct {
     OSType type;
     // Información del sistema
@@ -99,6 +108,9 @@ typedef struct {
     const char **logo;
     int logo_lines;
     
+    // Opciones
+    Options options;
+    
     // Colores dinámicos
     const char *color_label;    // Color para las etiquetas (ej: "OS:", "Host:")
     const char *color_value;    // Color para los valores
@@ -106,6 +118,12 @@ typedef struct {
     const char *color_logo;     // Color principal del logo
     const char *color_accent;   // Color de acento para el logo
 } SystemInfo;
+
+// Prototipos de funciones
+void show_help();
+void show_version();
+void parse_arguments(int argc, char *argv[], SystemInfo *info);
+void print_simple_info(const SystemInfo *info);
 
 // Función para calcular el ancho visual real (sin códigos ANSI)
 int get_visual_width(const char *str) {
@@ -125,9 +143,6 @@ int get_visual_width(const char *str) {
 }
 
 // ==================== CONFIGURACIÓN ====================
-
-// Descomenta esta línea para usar el logo personalizado en todos los sistemas
-#define USE_DEFAULT_LOGO
 
 // ==================== ESTRUCTURA DE LOGOS ====================
 
@@ -712,82 +727,145 @@ void get_kernel(SystemInfo *info) {
 void detect_os_info(SystemInfo *info) {
     OSType type = detect_os();
     info->type = type;
-    switch (type) {
-        case OS_WINDOWS:
-            info->color_label = BWHITE;
-            info->color_value = BYELLOW;
-            info->color_bar = BRED;
-            info->color_logo = BCYAN;
-            info->color_accent = BMAGENTA;
-            break;
-        case OS_UBUNTU:
-            info->color_label = BWHITE;
-            info->color_value = BYELLOW;
-            info->color_bar = BRED;
-            info->color_logo = BRED;
-            info->color_accent = BGREEN;
-            break;
-        case OS_ARCH:
-            info->color_label = BWHITE;
-            info->color_value = BYELLOW;
-            info->color_bar = BRED;
-            info->color_logo = BCYAN;
-            info->color_accent = BMAGENTA;
-            break;
-        default:
-            info->color_label = BWHITE;
-            info->color_value = BYELLOW;
-            info->color_bar = BRED;
-            info->color_logo = BYELLOW;
-            info->color_accent = BGREEN;
-            break;
+    
+    // Solo establecer los colores si no se está usando el logo por defecto
+    if (!info->options.use_default_logo) {
+        switch (type) {
+            case OS_WINDOWS:
+                info->color_label = BWHITE;
+                info->color_value = BYELLOW;
+                info->color_bar = BRED;
+                info->color_logo = BCYAN;
+                info->color_accent = BMAGENTA;
+                break;
+            case OS_UBUNTU:
+                info->color_label = BWHITE;
+                info->color_value = BYELLOW;
+                info->color_bar = BRED;
+                info->color_logo = BRED;
+                info->color_accent = BGREEN;
+                break;
+            case OS_ARCH:
+                info->color_label = BWHITE;
+                info->color_value = BYELLOW;
+                info->color_bar = BRED;
+                info->color_logo = BCYAN;
+                info->color_accent = BMAGENTA;
+                break;
+            default:
+                info->color_label = BWHITE;
+                info->color_value = BYELLOW;
+                info->color_bar = BRED;
+                info->color_logo = BYELLOW;
+                info->color_accent = BGREEN;
+                break;
+        }
+    } else {
+        // Configuración para el logo por defecto
+        info->color_label = BWHITE;
+        info->color_value = BYELLOW;
+        info->color_bar = BRED;
+        info->color_accent = BMAGENTA;
     }
 }
 
 void set_os_colors(SystemInfo *info) {
+    // No hacer nada si se está usando el logo por defecto
+    if (info->options.use_default_logo) {
+        return;
+    }
+    
     OSType type = info->type;
+    const char *original_logo_color = info->color_logo;  // Guardar el color del logo si ya está establecido
+    
     switch (type) {
         case OS_WINDOWS:
             info->color_label = BWHITE;
             info->color_value = BYELLOW;
             info->color_bar = BRED;
-            info->color_logo = BCYAN;
             info->color_accent = BMAGENTA;
+            if (!original_logo_color) info->color_logo = BCYAN;  // Solo establecer si no está ya establecido
             break;
         case OS_UBUNTU:
             info->color_label = BWHITE;
             info->color_value = BYELLOW;
             info->color_bar = BRED;
-            info->color_logo = BRED;
             info->color_accent = BGREEN;
+            if (!original_logo_color) info->color_logo = BRED;  // Solo establecer si no está ya establecido
             break;
         case OS_ARCH:
             info->color_label = BWHITE;
             info->color_value = BYELLOW;
             info->color_bar = BRED;
-            info->color_logo = BCYAN;
             info->color_accent = BMAGENTA;
+            if (!original_logo_color) info->color_logo = BCYAN;  // Solo establecer si no está ya establecido
             break;
         default:
             info->color_label = BWHITE;
             info->color_value = BYELLOW;
             info->color_bar = BRED;
-            info->color_logo = BYELLOW;
             info->color_accent = BGREEN;
+            if (!original_logo_color) info->color_logo = BYELLOW;  // Solo establecer si no está ya establecido
             break;
     }
 }
 
-// ==================== FUNCIÓN PRINCIPAL ====================
+
+
+
+void show_help() {
+    printf("CFetch - Una herramienta de información del sistema\n\n");
+    printf("Uso: cfetch [OPCIONES]\n\n");
+    printf("Opciones:\n");
+    printf("  -h, --help        Muestra esta ayuda y sale\n");
+    printf("  -v, --version     Muestra la versión del programa\n");
+    printf("  --no-color       Desactiva los colores en la salida\n");
+    printf("  --simple         Muestra solo la información básica\n");
+    printf("  --default-logo   Usa el logo predeterminado en lugar del específico del sistema\n\n");
+    printf("Sin opciones, muestra la información completa del sistema con colores.\n");
+}
+
+void show_version() {
+    printf("CFetch v1.0.0\n");
+}
+
+void parse_arguments(int argc, char *argv[], SystemInfo *info) {
+    // Valores por defecto
+    info->options.show_help = false;
+    info->options.show_version = false;
+    info->options.no_color = false;
+    info->options.simple_mode = false;
+    info->options.use_default_logo = false;
+    
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0) {
+            info->options.show_help = true;
+        } else if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--version") == 0) {
+            info->options.show_version = true;
+        } else if (strcmp(argv[i], "--no-color") == 0) {
+            info->options.no_color = true;
+        } else if (strcmp(argv[i], "-s") == 0 || strcmp(argv[i], "--simple") == 0) {
+            info->options.simple_mode = true;
+        } else if (strcmp(argv[i], "--default-logo") == 0) {
+            info->options.use_default_logo = true;
+        }
+    }
+}
 
 void set_logo(SystemInfo *info) {
-#ifdef USE_DEFAULT_LOGO
-    // Usar logo personalizado para todos los sistemas
-    info->logo = default_custom_logo;
-    info->logo_lines = sizeof(default_custom_logo) / sizeof(default_custom_logo[0]);
-    info->color_logo = BMAGENTA;  // Color principal del tema
-#else
-    // Usar logos específicos por sistema operativo
+    // Forzar el uso del logo personalizado si se especificó --default-logo
+    if (info->options.use_default_logo) {
+        info->logo = default_custom_logo;
+        info->logo_lines = sizeof(default_custom_logo) / sizeof(default_custom_logo[0]);
+        info->color_logo = BMAGENTA;
+        info->color_label = BWHITE;
+        info->color_value = BYELLOW;
+        info->color_bar = BRED;
+        info->color_accent = BMAGENTA;
+        return;
+    }
+    
+    // Si no se especificó --default-logo, usar el logo del sistema operativo
     switch (info->type) {
         case OS_WINDOWS:
             info->logo = windows_logo;
@@ -810,16 +888,20 @@ void set_logo(SystemInfo *info) {
             info->color_logo = BYELLOW;
             break;
     }
-#endif
 }
 
 void gather_info(SystemInfo *info) {
+    // Guardar las opciones antes de borrar la estructura
+    Options saved_options = info->options;
+    
+    // Limpiar la estructura pero preservar las opciones
     memset(info, 0, sizeof(SystemInfo));
+    info->options = saved_options;
     
-    detect_os_info(info);
-    set_os_colors(info);
-    set_logo(info);
+    // Primero, detectar el sistema operativo sin establecer colores
+    info->type = detect_os();
     
+    // Obtener la información del sistema operativo
     get_os_info(info);
     get_hostname(info);
     get_username(info);
@@ -840,9 +922,35 @@ void gather_info(SystemInfo *info) {
 #ifndef _WIN32
     get_kernel(info);
 #endif
+    
+    // Establecer el logo basado en la opción --default-logo
+    set_logo(info);
+    
+    // Establecer los colores del sistema operativo si no se está usando el logo personalizado
+    if (!info->options.use_default_logo) {
+        set_os_colors(info);
+    }
+}
+
+void print_simple_info(const SystemInfo *info) {
+    // Versión simple sin logo ni formato especial
+    printf("%s@%s\n", info->username, info->hostname);
+    printf("OS: %s\n", info->os);
+    printf("Kernel: %s\n", info->kernel);
+    printf("Uptime: %s\n", info->uptime);
+    printf("CPU: %s\n", info->cpu);
+    if (strlen(info->gpu) > 0) printf("GPU: %s\n", info->gpu);
+    printf("Memory: %s\n", info->memory);
+    if (strlen(info->disk) > 0) printf("Disk: %s\n", info->disk);
 }
 
 void print_info(SystemInfo *info) {
+    // Si está en modo simple, usar la versión simple
+    if (info->options.simple_mode) {
+        print_simple_info(info);
+        return;
+    }
+
     char lines[MAX_LINES][MAX_INFO * 2];
     int idx = 0;
     
@@ -957,15 +1065,84 @@ void print_info(SystemInfo *info) {
 }
 
 int main(int argc, char *argv[]) {
-    enable_ansi_colors();
+    SystemInfo info = {0};  // Inicializar toda la estructura a ceros
     
-    SystemInfo info;
+    // Inicializar explícitamente las opciones
+    info.options.show_help = false;
+    info.options.show_version = false;
+    info.options.no_color = false;
+    info.options.simple_mode = false;
+    info.options.use_default_logo = false;
     
-    printf("%sRecopilando información del sistema...%s\n", BCYAN, RESET);
+    // Procesar argumentos PRIMERO, antes de cualquier otra cosa
+    parse_arguments(argc, argv, &info);
+    
+    // Manejar opciones que no requieren procesamiento completo
+    if (info.options.show_help) {
+        show_help();
+        return 0;
+    }
+    
+    if (info.options.show_version) {
+        show_version();
+        return 0;
+    }
+    
+    // Configurar colores
+    if (!info.options.no_color) {
+        enable_ansi_colors();
+    } else {
+        // Si se desactivan los colores, establece todos los códigos de color a cadena vacía
+        #undef RESET
+        #undef BOLD
+        #undef BLACK
+        #undef RED
+        #undef GREEN
+        #undef YELLOW
+        #undef BLUE
+        #undef MAGENTA
+        #undef CYAN
+        #undef WHITE
+        #undef BBLACK
+        #undef BRED
+        #undef BGREEN
+        #undef BYELLOW
+        #undef BBLUE
+        #undef BMAGENTA
+        #undef BCYAN
+        #undef BWHITE
+        
+        #define RESET ""
+        #define BOLD ""
+        #define BLACK ""
+        #define RED ""
+        #define GREEN ""
+        #define YELLOW ""
+        #define BLUE ""
+        #define MAGENTA ""
+        #define CYAN ""
+        #define WHITE ""
+        #define BBLACK ""
+        #define BRED ""
+        #define BGREEN ""
+        #define BYELLOW ""
+        #define BBLUE ""
+        #define BMAGENTA ""
+        #define BCYAN ""
+        #define BWHITE ""
+    }
+    
+    // No mostrar mensaje de recopilación de información
+    (void)info; // Evitar advertencia de variable no utilizada
+    
+    // Ahora que ya procesamos los argumentos, obtener la información del sistema
     gather_info(&info);
     
-    system(LINE_CLEAR);
-    print_info(&info);
+    if (info.options.simple_mode) {
+        print_simple_info(&info);
+    } else {
+        print_info(&info);
+    }
     
     return 0;
 }

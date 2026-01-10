@@ -1,6 +1,5 @@
 build
 incesary_archives
-build_simple.ps1
 GUIDE_GITHUB.md
-
-
+install.ps1
+CFech-multiplatform
