@@ -25,14 +25,16 @@ else
     exit 1
 fi
 
-# Clonar el repositorio
-echo "Descargando CFetch..."
-git clone https://github.com/rx3card/cfetch.git
-cd cfetch
+# Verificar si cfetch.c existe
+if [ ! -f "cfetch.c" ]; then
+    echo -e "${RED}Error: No se encontró cfetch.c en el directorio actual${NC}"
+    echo "Asegúrate de estar en el directorio del proyecto CFetch"
+    exit 1
+fi
 
 # Compilar
-echo "Compilando..."
-make
+echo "Compilando CFetch..."
+gcc cfetch.c -o cfetch -D_OS_LINUX
 
 # Instalar
 echo "Instalando en /usr/local/bin (se requiere contraseña de administrador)..."
@@ -40,8 +42,7 @@ sudo cp cfetch /usr/local/bin/cfetch
 sudo chmod +x /usr/local/bin/cfetch
 
 # Limpiar
-cd ..
-rm -rf cfetch
+rm -f cfetch
 
 echo -e "${GREEN}¡CFetch instalado correctamente!${NC}"
 echo "Ejecuta 'cfetch' para ver la información de tu sistema."

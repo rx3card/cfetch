@@ -2,59 +2,57 @@
 
 A lightweight alternative to neofetch written in pure C. Fast, minimal, and dependency-free.
 
-> **Note**
-> [Leer en español](README_es.md)
+> **Note**  
+> [Read in Spanish](README_es.md)
 
 ## Why CFetch?
 
 Tired of waiting for neofetch to load? So was I. CFetch gives you the same system information in just 3ms compared to neofetch's 220ms. It's not magic, just efficient code without the bloat.
 
+## Evidence (Screenshots)
 
-## Envidencias (Capturas)
+![CFetch on Windows](captures/cfetch-windows.png)  
+*CFetch showing detailed information on Windows*
 
-![CFetch en Windows](captures/cfetch-windows.png)
-*CFetch mostrando información detallada en Windows*
+![CFetch on Linux](captures/image.png)  
+*CFetch on Arch Linux*
 
-![CFetch en Linux](captures/image.png)
-*CFetch en archlinux*
-
-
-**NOTE:** CFetch currently supports the most common operating systems:
-- Windows
-- Linux:
-  - Arch Linux
-  - Ubuntu
-  - Debian
+**NOTE:** CFetch currently supports the most common operating systems:  
+- Windows  
+- Linux:  
+  - Arch Linux  
+  - Ubuntu  
+  - Debian  
   - And more (shows generic Linux logo for others)
 
 ## Installation
 
 ### Linux & macOS
 
-**NOTA:** Para que esto sea exitoso es necesario que tengas un compilador, preferiblemente gcc.
+**NOTE:** For this to work successfully you need a compiler, preferably gcc.
 
-Abre una terminal y ejecuta este comando:
+Open a terminal and run this command:
 
 ```bash
 curl -sSL https://raw.githubusercontent.com/rx3card/cfetch/main/install-cfetch.sh | bash
 ```
 
-O si prefieres descargar primero el script:
+Or if you prefer to download the script first:
 
 ```bash
-# Descargar el script
+# Download the script
 curl -O https://raw.githubusercontent.com/rx3card/cfetch/main/install-cfetch.sh
 
-# Hacerlo ejecutable
+# Make it executable
 chmod +x install-cfetch.sh
 
-# Ejecutar (necesitarás contraseña de administrador)
+# Run it (you'll need admin password)
 ./install-cfetch.sh
 ```
 
-### Instalación sin requerimientos
+### Installation without requirements
 
-Abre tu terminal y ejecuta los siguientes comandos:
+Open your terminal and run the following commands:
 
 ```bash
 cd CFech-multiplaform/
@@ -62,122 +60,121 @@ chmod +x install.sh
 sudo ./install.sh
 ```
 
-Esto aun no es funcional. Ten lo encuenta de modo que para instalar cfetch en windows si esta opción no funciona posiblemente tengas que realizar la instalacion anterior.
+This is not yet functional. Keep this in mind: if this option doesn't work for installing cfetch on Windows, you'll most likely need to use the previous installation method.
 
 ## Windows
 
-1. Descarga el instalador de [la última versión](https://github.com/rx3card/cfetch/releases)
-2. Ejecuta el archivo descargado
-3. Sigue las instrucciones en pantalla
-4. Abre una nueva terminal y escribe `cfetch`
+1. Download the installer from [the latest release](https://github.com/rx3card/cfetch/releases)  
+2. Run the downloaded file  
+3. Follow the on-screen instructions  
+4. Open a new terminal and type `cfetch`
 
+## Why CFetch?
 
-## ¿Por qué CFetch?
+Because sometimes you just want something that works without complications:  
+- **Lightning fast** — Pure C compiled, no loading times  
+- **Zero dependencies** — No need to install Python or anything weird  
+- **For everyone** — Works just as well on Windows, Linux and Mac  
+- **Looks good out of the box** — No configuration needed
 
-Porque a veces solo quieres algo que funcione sin complicaciones:
-- **Rápido como el rayo** - Compilado en C puro, sin tiempos de carga
-- **Sin dependencias** - No necesitas instalar Python ni nada raro
-- **Para todos** - Funciona igual de bien en Windows, Linux y Mac
-- **Bonito por defecto** - Sin necesidad de configurar nada
+## How to use
 
-## Cómo se usa
-
+```bash
+cfetch          # Shows system info
+cfetch --help   # Shows help
 ```
-cfetch          # Muestra la info del sistema
-cfetch --help   # Muestra la ayuda
-```
 
-## Requisitos del Sistema
+## System Requirements
 
-- **Windows**: 7 o superior (32 o 64 bits)
-- **Linux**: Cualquier distribución moderna
-- **macOS**: 10.13 o superior
-- **Espacio en disco**: Menos de 1MB
+- **Windows**: 7 or higher (32 or 64 bits)  
+- **Linux**: Any modern distribution  
+- **macOS**: 10.13 or higher  
+- **Disk space**: Less than 1MB
 
-## Uso Básico
+## Basic Usage
 
-Una vez instalado, simplemente ejecuta:
+Once installed, simply run:
 
 ```bash
 cfetch
 ```
 
-### Opciones disponibles:
-
-```
-cfetch               # Muestra la información del sistema
-cfetch --help        # Muestra la ayuda
-cfetch --version     # Muestra la versión
-cfetch --no-color    # Desactiva los colores
-cfetch --simple      # Muestra solo la información básica
-```
-
-### Compilación
-#### Requisitos:
-- **Windows**: MinGW o Visual Studio, Inno Setup
-- **Linux/macOS**: gcc/clang y make
-
-
-## 🛠️ Guía Rápida para Desarrolladores
-
-### Comandos Útiles
+### Available options:
 
 ```bash
-# Compilar en Windows
+cfetch               # Shows system information
+cfetch --help        # Shows help
+cfetch --version     # Shows version
+cfetch --no-color    # Disables colors
+cfetch --simple      # Shows only basic information
+```
+
+### Compilation
+
+#### Requirements:
+- **Windows**: MinGW or Visual Studio, Inno Setup  
+- **Linux/macOS**: gcc/clang and make
+
+## 🛠️ Quick Developer Guide
+
+### Useful Commands
+
+```bash
+# Compile on Windows
 .\build_simple.ps1
 
-# Crear instalador (requiere Inno Setup)
+# Create installer (requires Inno Setup)
 .\build_installer.ps1
 ```
 
-### Cómo Contribuir
+### How to Contribute
 
-1. Haz un fork del repositorio
-2. Crea una rama para tu función: `git checkout -b mi-nueva-funcion`
-3. Haz commit de tus cambios: `git commit -am 'Añade alguna función'`
-4. Haz push a la rama: `git push origin mi-nueva-funcion`
-5. Abre un Pull Request
+1. Fork the repository  
+2. Create a branch for your feature: `git checkout -b my-new-feature`  
+3. Commit your changes: `git commit -am 'Add some feature'`  
+4. Push to the branch: `git push origin my-new-feature`  
+5. Open a Pull Request
 
-## 🚀 Uso
+## 🚀 Usage
 
-### Comando Básico
+### Basic Command
+
 ```bash
 cfetch
 ```
 
-### Opciones
+### Options
+
+```bash
+cfetch                # Shows system information
+cfetch --help         # Shows help
+cfetch --version      # Shows version
+cfetch --no-color     # Disables colors
+cfetch --simple       # Simple mode (less information)
+cfetch --default-logo # Shows my default logo
 ```
-cfetch                # Muestra la información del sistema
-cfetch --help         # Muestra la ayuda
-cfetch --version      # Muestra la versión
-cfetch --no-color     # Desactiva los colores
-cfetch --simple       # Modo simple (menos información)
-cfetch --default-logo # Muestra logo predeterminado por mi
-```
 
-## 👏 Reconocimientos
+## 👏 Acknowledgments
 
-- Inspirado en [neofetch](https://github.com/dylanaraps/neofetch)
-- A todos los [contribuyentes](https://github.com/rx3card/cfetch/graphs/contributors)
+- Inspired by [neofetch](https://github.com/dylanaraps/neofetch)  
+- To all the [contributors](https://github.com/rx3card/cfetch/graphs/contributors)
 
-## ⭐ ¿Te gusta CFetch?
+## ⭐ Like CFetch?
 
-¡Dale una estrella en [GitHub](https://github.com/rx3card/cfetch) para apoyar el proyecto! ⭐
+Give it a star on [GitHub](https://github.com/rx3card/cfetch) to support the project! ⭐
 
-## 📬 Contacto
+## 📬 Contact
 
-¿Preguntas? ¿Sugerencias? ¡Abre un [issue](https://github.com/rx3card/cfetch/issues) o envíame un mensaje!
+Questions? Suggestions? Open an [issue](https://github.com/rx3card/cfetch/issues) or send me a message!
 
 ---
 
-💡 **Consejo:** Presiona `F5` en la terminal después de instalar para actualizar el PATH.
+💡 **Tip:** Press `F5` in the terminal after installing to refresh the PATH.
 
+## 🤝 Contribute
 
-
-## 🤝 Contribuir
-
-1. Haz un fork del proyecto
-2. Crea una rama para tu característica (`git checkout -b feature/nueva-funcion`)
-3. Haz commit de tus cambios (`git commit -am 'Añade nueva función'`)
-4. Haz push a la rama (`git push origin feature/nueva-funcion`)
-5. Abre un Pull Request
+1. Fork the project  
+2. Create a branch for your feature (`git checkout -b feature/new-feature`)  
+3. Commit your changes (`git commit -am 'Add new feature'`)  
+4. Push to the branch (`git push origin feature/new-feature`)  
+5. Open a Pull Request

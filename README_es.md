@@ -45,10 +45,10 @@ cfetch --help   # Muestra la ayuda
 
 ## Capturas de pantalla
 
-![CFetch en Windows](screenshots/windows.png)
+![CFetch en Windows](captures/cfetch-windows.png)
 *Windows 10/11*
 
-![CFetch en Archcraft](screenshots/archcraft.png)
+![CFetch en Archcraft](captures/image.png)
 *Linux (Archcraft)*
 
 ## Contribuir
