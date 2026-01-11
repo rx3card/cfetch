@@ -9,6 +9,16 @@ A lightweight alternative to neofetch written in pure C. Fast, minimal, and depe
 
 Tired of waiting for neofetch to load? So was I. CFetch gives you the same system information in just 3ms compared to neofetch's 220ms. It's not magic, just efficient code without the bloat.
 
+
+## Envidencias (Capturas)
+
+![CFetch en Windows](captures/cfetch-windows.png)
+*CFetch mostrando información detallada en Windows*
+
+<!-- ![CFetch en Linux](screenshots/linux.png) -->
+<!-- *CFetch en una terminal de Linux personalizada* -->
+
+
 **NOTE:** CFetch currently supports the most common operating systems:
 - Windows
 - Linux:
@@ -61,16 +71,6 @@ Esto aun no es funcional. Ten lo encuenta de modo que para instalar cfetch en wi
 3. Sigue las instrucciones en pantalla
 4. Abre una nueva terminal y escribe `cfetch`
 
-<!-- ## Instalación manual (opcional)
-
-Si prefieres instalar manualmente:
-
-```bash
-git clone https://github.com/rx3card/cfetch
-cd cfetch
-make
-sudo make install
-``` -->
 
 ## ¿Por qué CFetch?
 
@@ -117,14 +117,6 @@ cfetch --simple      # Muestra solo la información básica
 - **Windows**: MinGW o Visual Studio, Inno Setup
 - **Linux/macOS**: gcc/clang y make
 
-
-## 📸 Envidencias (Capturas)
-
-![CFetch en Windows](screenshots/windows.png)
-*CFetch mostrando información detallada en Windows*
-
-![CFetch en Linux](screenshots/linux.png)
-*CFetch en una terminal de Linux personalizada*
 
 ## 🛠️ Guía Rápida para Desarrolladores
 
