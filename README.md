@@ -15,8 +15,8 @@ Tired of waiting for neofetch to load? So was I. CFetch gives you the same syste
 ![CFetch en Windows](captures/cfetch-windows.png)
 *CFetch mostrando información detallada en Windows*
 
-<!-- ![CFetch en Linux](screenshots/linux.png) -->
-<!-- *CFetch en una terminal de Linux personalizada* -->
+![CFetch en Linux](captures/image.png)
+*CFetch en archlinux*
 
 
 **NOTE:** CFetch currently supports the most common operating systems:
