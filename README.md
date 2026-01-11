@@ -21,7 +21,7 @@ Tired of waiting for neofetch to load? So was I. CFetch gives you the same syste
 
 ### Linux & macOS
 
-**NOTA:** Para que esto sea exitoso es necesario que tengas un compilador, preferiblemen gcc.
+**NOTA:** Para que esto sea exitoso es necesario que tengas un compilador, preferiblemente gcc.
 
 Abre una terminal y ejecuta este comando:
 
@@ -41,6 +41,18 @@ chmod +x install-cfetch.sh
 # Ejecutar (necesitarás contraseña de administrador)
 ./install-cfetch.sh
 ```
+
+### Instalación sin requerimientos
+
+Abre tu terminal y ejecuta los siguientes comandos:
+
+```bash
+cd CFech-multiplaform/
+chmod +x install.sh
+sudo ./install.sh
+```
+
+Esto aun no es funcional. Ten lo encuenta de modo que para instalar cfetch en windows si esta opción no funciona posiblemente tengas que realizar la instalacion anterior.
 
 ## Windows
 
