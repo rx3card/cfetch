@@ -159,17 +159,17 @@ cfetch --default-logo # Shows my default logo
 - Inspired by [neofetch](https://github.com/dylanaraps/neofetch)  
 - To all the [contributors](https://github.com/rx3card/cfetch/graphs/contributors)
 
-## ⭐ Like CFetch?
+## Like CFetch?
 
 Give it a star on [GitHub](https://github.com/rx3card/cfetch) to support the project! ⭐
 
-## 📬 Contact
+## Contact
 
 Questions? Suggestions? Open an [issue](https://github.com/rx3card/cfetch/issues) or send me a message!
 
 ---
 
-💡 **Tip:** Press `F5` in the terminal after installing to refresh the PATH.
+**Tip:** Press `F5` in the terminal after installing to refresh the PATH.
 
 ## 🤝 Contribute
 
