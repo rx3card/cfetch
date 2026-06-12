@@ -63,5 +63,5 @@ echo "Instalando en $INSTALL_DIR..."
 mv $BIN_NAME $INSTALL_DIR/
 chmod +x $INSTALL_DIR/$BIN_NAME
 
-echo -e "${GREEN}✅ CFetch instalado correctamente!${NC}"
+echo -e "${GREEN}CFetch instalado correctamente!${NC}"
 echo -e "Ejecuta 'cfetch' en cualquier terminal para ver la información del sistema."

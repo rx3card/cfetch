@@ -38,7 +38,7 @@ if ($innoPath) {
         & "$innoPath" "cfetch.iss"
         
         if ($LASTEXITCODE -eq 0) {
-            Write-Host "`n✅ ¡Instalador creado exitosamente en la carpeta 'dist'!" -ForegroundColor Green
+            Write-Host "`n¡Instalador creado exitosamente en la carpeta 'dist'!" -ForegroundColor Green
             $installerPath = (Get-Item "dist\CFetch-Setup.exe").FullName
             Write-Host "Instalador: $installerPath" -ForegroundColor Cyan
             
@@ -48,13 +48,13 @@ if ($innoPath) {
                 explorer "$PWD\dist"
             }
         } else {
-            Write-Host "`n❌ Error al crear el instalador. Código de salida: $LASTEXITCODE" -ForegroundColor Red
+            Write-Host "`nError al crear el instalador. Código de salida: $LASTEXITCODE" -ForegroundColor Red
         }
     } catch {
-        Write-Host "`n❌ Error al ejecutar Inno Setup: $_" -ForegroundColor Red
+        Write-Host "`nError al ejecutar Inno Setup: $_" -ForegroundColor Red
     }
 } else {
-    Write-Host "`n❌ Error: No se pudo encontrar Inno Setup en las ubicaciones comunes." -ForegroundColor Red
+    Write-Host "`nError: No se pudo encontrar Inno Setup en las ubicaciones comunes." -ForegroundColor Red
     Write-Host "Por favor, asegúrate de que Inno Setup esté instalado correctamente." -ForegroundColor Yellow
     Write-Host "Puedes descargarlo de: https://jrsoftware.org/isdl.php" -ForegroundColor Cyan
     
